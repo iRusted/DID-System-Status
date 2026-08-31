@@ -14,6 +14,7 @@ A Discord bot for managing system status, alters, and messages.
 * Edit alter information
 * Send/read messages
 * Branch user bans
+* Sets the current Fronter as the Discord Bots status
 * Probably other stuff I forgot
 
 ## Requirements
@@ -27,6 +28,14 @@ Install dependencies:
 ```bash
 pip install discord.py
 ```
+
+## User Level Abilities
+
+Super Users:
+
+* Create/Delete/Edit Alters
+* Set Current Alter
+* Administrator of the System 
 
 ## Setup
 
@@ -61,13 +70,15 @@ Database file:
 AlterDB.db
 ```
 
-## Development
+## Development 
 
 This is currently under active development.
 
 Things will probably break.
 
 If something breaks, fix it.
+
+I am always am open to new code, feel free to submit things to me. My discord is: iRustedzz
 
 ## Disclaimer
 
