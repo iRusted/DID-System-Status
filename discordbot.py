@@ -374,7 +374,7 @@ async def edit_alter_information(interaction: discord.Interaction, alter_id: int
             )
             return
 
-        (ID, Name, Pronouns, Role, ImageURL) = alter_info
+        (ID, Name, Pronouns, Role, ImageURL) = alter_info # Convert Turple to Indivduial Variables
             
         alter_id = ID
         alter_name = Name 
@@ -382,7 +382,7 @@ async def edit_alter_information(interaction: discord.Interaction, alter_id: int
         alter_role = Role 
         alter_image = ImageURL
        
-        class MyModal(discord.ui.Modal, title="Edit Alter"):
+        class MyModal(discord.ui.Modal, title="Edit Alter"): # Creates Modal 
             def __init__(self, alter_id, alter_name, alter_pronouns, alter_role, alter_image):
                 super().__init__()
 
@@ -447,7 +447,7 @@ async def edit_alter_information(interaction: discord.Interaction, alter_id: int
             "You need to be a super user to use this command."
         )
 
-@bot.tree.command(name="check_alters", description="The New way to Check Alters!")
+@bot.tree.command(name="check_alters", description="The New way to Check Alters!") # Checks Alters from the Database using the get_alters function
 async def check_alters(interaction: discord.Interaction):
     if interaction.user.id in acceptedUser:
 
@@ -464,7 +464,7 @@ async def check_alters(interaction: discord.Interaction):
     else: 
         await interaction.response.send_message("You must be an accepted user to run this command.")
     
-@bot.tree.command(name="message", description="Message Anyone! Alter -> Person/Person -> Alter")
+@bot.tree.command(name="message", description="Message Anyone! Alter -> Person/Person -> Alter") # WIP Messages Command, Slightly broken
 async def message_command(interaction: discord.Interaction, alter_id: int, message: str, alter_or_user: str, disct_id_recpt: str = None):
 
     if interaction.user.id in acceptedUser:
@@ -512,11 +512,8 @@ async def message_command(interaction: discord.Interaction, alter_id: int, messa
         await interaction.response.send_message(
             "You must be an accepted user to run this command.", ephemeral=True
         )
-    
-@bot.tree.command(
-    name="check_for_messages",
-    description="Read a message from an alter, or from a user as an alter!"
-)
+
+@bot.tree.command(name="check_for_messages", description="Read a message from an alter, or from a user as an alter!") # Checks for new messages via the database. 
 async def read_message(interaction: discord.Interaction):
 
     if interaction.user.id not in acceptedUser:
@@ -561,7 +558,7 @@ async def read_message(interaction: discord.Interaction):
 
         await interaction.response.send_message(message_text)
 
-@bot.tree.command(name="system_set", description="Set the UserID of the System's Host")
+@bot.tree.command(name="system_set", description="Set the UserID of the System's Host") # Adds the SystemID of the host. Should only be used if the hosts account got banned. Is set during setup.
 async def set_system_host(interaction: discord.Interaction, host_id: str):
     if interaction.user.id in superUserIDs:
         try:
