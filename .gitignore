@@ -225,10 +225,12 @@ __marimo__/
 # Discord bot secrets
 .env
 *.env
+botConfig.py
 
 # Local configuration / secrets
 config.json
 secrets.json
+
 
 # Logs
 *.log

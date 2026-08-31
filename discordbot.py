@@ -27,6 +27,7 @@ from database_handling import set_host_id
 from database_handling import read_host_id
 from database_handling import read_message_user
 from database_handling import read_message_alter
+from database_handling import ban_user
 from helpers import confirmation
 from helpers import alter_name_autocomplete
 import traceback
@@ -512,6 +513,7 @@ async def read_message(interaction: discord.Interaction):
         )
 
         await interaction.response.send_message(message_text)
+
 @bot.tree.command(name="system_set", description="Set the UserID of the System's Host")
 async def set_system_host(interaction: discord.Interaction, host_id: str):
     if interaction.user.id in superUserIDs:
@@ -532,7 +534,17 @@ async def set_system_host(interaction: discord.Interaction, host_id: str):
             "You don't have permission to do that.", ephemeral=True
         )
         
-
+@bot.tree.command(name="branch_ban_user", description="Ban a user, and log to YOUR alterDB. This is not global.")
+async def branch_ban_user(interaction:discord.Interaction, user_id: int, reason: str):
+    if interaction.user.id in superUserIDs:
+        banned_user_id = user_id
+        reason = reason 
+        
+        ban_user(banned_user_id, reason)
+        
+        await interaction.response.send_message(
+            f"Banned the user with the ID of {user_id} from interacting with your system at all."
+        )
 
 #Test Command
 

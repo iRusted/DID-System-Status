@@ -505,3 +505,18 @@ def read_message_alter(alter_id):
     finally:
         db.close()
         
+        
+def ban_user(user_ID, reason ):
+    db = get_database_connection()
+    try:
+        cursor = db.cursor()
+        cursor.execute(
+            """
+            INSERT INTO banned_users (BannedID, Reason)
+            VALUES (?, ?)
+            """,
+            (user_ID, reason)
+        )
+        db.commit()
+    finally:
+        db.close()
