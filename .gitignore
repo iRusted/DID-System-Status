@@ -216,3 +216,29 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
+
+# Discord bot secrets
+.env
+*.env
+
+# Local configuration / secrets
+config.json
+secrets.json
+
+# Logs
+*.log
+
+# Local IDE settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
