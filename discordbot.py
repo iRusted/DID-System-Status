@@ -43,6 +43,8 @@ intents.message_content = True
 
 # Command Extra
 
+bot = commands.Bot(command_prefix="/", intents=intents) # Added to work because I don't have OG Copy of botConfig.py
+
 def build_alter_embed(data) -> discord.Embed: # Relates to /check_alters
     """
     Builds one alter's embed from a DB row.

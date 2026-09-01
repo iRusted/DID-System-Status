@@ -25,3 +25,5 @@ with sqlite3.connect("alterDB.db") as conn:
             host_id INTEGER
         )
     """)
+
+print("Created Stuff!")
