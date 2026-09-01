@@ -491,19 +491,23 @@ def set_host_id(host_id):
         
 def read_message_alter(alter_id): 
     db = get_database_connection()
-    try: 
-        cursor = db.cursor()
-        cursor.execute(
-            """
-            SELECT message_id, message, date_created
-            FROM Messages
-            WHERE alter_id = ?
-            """,
-            (alter_id,)
+     
+    cursor = db.cursor()
+    cursor.execute(
+        """
+        SELECT message_id, message, date_created
+        FROM Messages
+        WHERE alter_id = ?
+        """,
+        (alter_id,)
         ) 
-        db.commit()
-    finally:
-        db.close()
+       
+    result = cursor.fetchall()
+       
+    db.close 
+    
+    return result 
+
         
         
 def ban_user(user_ID, reason ):

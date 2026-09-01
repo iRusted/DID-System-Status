@@ -30,8 +30,7 @@ from database_handling import read_message_alter
 from database_handling import ban_user
 from helpers import confirmation
 from helpers import alter_name_autocomplete
-import traceback
-import io
+
 
 print("Bot Created and Developed by: Russell Rags.")
 print("Copyright © 2026 Russell Rags. All Rights Reserved.")
@@ -527,7 +526,7 @@ async def read_message(interaction: discord.Interaction):
         current_fronter = get_current_fronter()
         alter_id = get_alter_id_by_name(current_fronter)
         alter_messages = read_message_alter(alter_id)
-
+        
         if not alter_messages:
             await interaction.response.send_message(
                 f"📭 No messages for **{current_fronter}**."
@@ -535,10 +534,10 @@ async def read_message(interaction: discord.Interaction):
             return
 
         message_info = "\n".join(
-            f"**{message[3]}** — {message[1]}"
-            for message in alter_messages
+            f"**{message[2]}** — {message[1]}"
+            
+            for message in alter_messages 
         )
-
         await interaction.response.send_message(message_info)
 
     else:
