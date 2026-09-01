@@ -45,6 +45,27 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="/", intents=intents) # Added to work because I don't have OG Copy of botConfig.py
 
+def build_message_embed(data) -> discord.Embed:   # Build the Message System Embed for new messages within the bot. This is for User -> Alter
+    date, message, sender_id = data
+
+    embed = discord.embed(
+        title=f"Message from: {sender_id}",
+        color=0x0a4b8,
+        inline =False,
+    ) 
+
+    embed.set_author(name="SystemStatus")
+
+    embed.add_field(
+        name="Message",
+        value=f"{message}",
+        timestamp=datetime.now(timezone.utc)
+    )
+    
+    embed.set_footer(text="Message Provided by SystemStatus")
+
+    return embed
+
 def build_alter_embed(data) -> discord.Embed: # Relates to /check_alters
     """
     Builds one alter's embed from a DB row.
