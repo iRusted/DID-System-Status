@@ -31,11 +31,22 @@ pip install discord.py
 
 ## User Level Abilities
 
-Super Users:
+System Host:
+-# Please note, you still should be adding the System Hosts ID to the Super Users list.
+* Read Messages to Alters 
+
+Super Users (Close Friends/Trusted Friends):
 
 * Create/Delete/Edit Alters
 * Set Current Alter
 * Administrator of the System 
+
+Accepted Users (Friends):
+
+* See Basic Information About the System (Fronting Etc)
+* Send Messages to alters
+* Interact as a friend.
+
 
 ## Setup
 
