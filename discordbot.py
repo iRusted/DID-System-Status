@@ -580,6 +580,41 @@ async def read_message(interaction: discord.Interaction):
 
         await interaction.response.send_message(message_text)
 
+@bot.tree.command(name="check_messages_test", description="This is a test of the Check Messages Imbed System.")
+async def check_messages_test(interaction: discord.Interaction):
+    if interaction.user.id not in acceptedUser:
+        await interaction.response.send_message(
+            "You must be authorized to use this command."
+        )
+        return
+    elif interaction.user.id in system_host:
+        current_fronter = get_current_fronter()
+        alter_id = get_alter_id_by_name(current_fronter)
+        alter_messages = read_message_alter(alter_id)
+
+        if not alter_messages:
+            await interaction.response.send_message(
+                f"📭 No messages for **{current_fronter}**."
+            )
+            return
+
+        for message in alter_messages:
+            embed = build_message_embed(message)
+            await interaction.response.send_message(embed=embed)
+    else:
+        user_id = interaction.user.id
+        message_info = read_message_user(user_id)
+
+        if not message_info:
+            await interaction.response.send_message(
+                "📭 You don't have any messages."
+            )
+            return
+
+        for message in message_info:
+            embed = build_message_embed(message)
+            await interaction.response.send_message(embed=embed)
+
 @bot.tree.command(name="system_set", description="Set the UserID of the System's Host") # Adds the SystemID of the host. Should only be used if the hosts account got banned. Is set during setup.
 async def set_system_host(interaction: discord.Interaction, host_id: str):
     if interaction.user.id in superUserIDs:
