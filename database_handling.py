@@ -423,16 +423,16 @@ def get_alter_by_id(alter_id):
 
     return result
 
-def create_new_message(Message, Alter_ID, Recpt_ID, alter_or_user, current_time):
+def create_new_message(Message, Alter_ID, Recpt_ID, alter_or_user, current_time, sender_disc_id):
     db = get_database_connection()
     try:
         cursor = db.cursor()
         cursor.execute(
             """
-            INSERT INTO Messages (message, alter_id, disc_id_recpt, alter_or_user, date_created)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO Messages (message, alter_id, disc_id_recpt, alter_or_user, date_created, sender_disc_id)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (Message, Alter_ID, Recpt_ID, alter_or_user, current_time)
+            (Message, Alter_ID, Recpt_ID, alter_or_user, current_time, sender_disc_id)
         )
         db.commit()
     finally:

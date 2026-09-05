@@ -242,3 +242,6 @@ secrets.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# I forgot to remove these.
+test.py

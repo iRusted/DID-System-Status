@@ -45,23 +45,31 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="/", intents=intents) # Added to work because I don't have OG Copy of botConfig.py
 
-def build_message_embed(data) -> discord.Embed:   # Build the Message System Embed for new messages within the bot. This is for User -> Alter
-    date, message, sender_id = data
+def build_message_embed(data) -> discord.Embed:
+    # Build the Message System Embed for new messages within the bot.
+    # This is for User -> Alter
+    message_id, date, message_date, sender_id = data
 
-    embed = discord.embed(
+    embed = discord.Embed(
         title=f"Message from: {sender_id}",
         color=0x0a4b8,
-        inline =False,
-    ) 
+        timestamp=datetime.now(timezone.utc)
+    )
+
+    embed.add_field(
+        name="Date Sent:",
+        value=f"{sender_id}",
+        inline=False
+    )
 
     embed.set_author(name="SystemStatus")
 
     embed.add_field(
-        name="Message",
-        value=f"{message}",
-        timestamp=datetime.now(timezone.utc)
+        name="Message ID:",
+        value=f"{message_id}",
+        inline=False
     )
-    
+
     embed.set_footer(text="Message Provided by SystemStatus")
 
     return embed
@@ -487,53 +495,48 @@ async def check_alters(interaction: discord.Interaction):
         await interaction.response.send_message("You must be an accepted user to run this command.")
     
 @bot.tree.command(name="message", description="Message Anyone! Alter -> Person/Person -> Alter") # WIP Messages Command, Slightly broken
-async def message_command(interaction: discord.Interaction, alter_id: int, message: str, alter_or_user: str, disct_id_recpt: str = None):
+async def message_command(interaction: discord.Interaction, alter_id: int, message: str, disct_id_recpt: str = None):
 
-    if interaction.user.id in acceptedUser:
-        current_time = datetime.now()
+    current_time = datetime.now()
 
-        if alter_or_user.lower() == "alter":
-            alter_or_user = 1
-        elif alter_or_user.lower() == "user":
-            alter_or_user = 0
-        else:
-            await interaction.response.send_message(
-                "Please enter either 'alter' or 'user' for alter_or_user.", ephemeral=True
-            )
-            return
-
-        # Convert disct_id_recpt to int if provided
+    if interaction.user.id in system_host:
+        alter_or_user = 1
+        
+         # Convert disct_id_recpt to int if provided
         if disct_id_recpt is not None:
             try:
                 disct_id_recpt = int(disct_id_recpt)
             except ValueError:
                 await interaction.response.send_message(
-                    "disct_id_recpt must be a valid numeric Discord user ID.", ephemeral=True
+                        "disct_id_recpt must be a valid numeric Discord user ID.", ephemeral=True
                 )
                 return
-
-        # alter -> user requires a Discord recipient ID
-        if alter_or_user == 1 and disct_id_recpt is None:
+        if disct_id_recpt is None: 
             await interaction.response.send_message(
                 "You must provide a Discord user ID (disct_id_recpt) to message as an alter.", ephemeral=True
             )
             return
-
-        create_new_message(message, alter_id, disct_id_recpt, alter_or_user, current_time)
-
-        if alter_or_user == 1:
-            messaged_person = get_alter_name(alter_id)
-        else:
-            messaged_person = disct_id_recpt
-
+        
+        sender_disc_id = "Alter"
+        
+        create_new_message(message, alter_id, disct_id_recpt, alter_or_user, current_time, sender_disc_id)
+        
         await interaction.response.send_message(
-            f"Added a message to {messaged_person}"
+            f"You have sent a message to: @{disct_id_recpt}"
         )
-
-    else:
-        await interaction.response.send_message(
-            "You must be an accepted user to run this command.", ephemeral=True
-        )
+              
+    elif interaction.user.id in acceptedUser:
+        alter_or_user = 0 
+        
+        sender_disc_id = interaction.user.id 
+        
+        create_new_message(message, alter_id, disct_id_recpt, alter_or_user, current_time, sender_disc_id)
+    
+    else: 
+        print("You must be added to the AcceptedUsers list.")
+        
+        
+        
 
 @bot.tree.command(name="check_for_messages", description="Read a message from an alter, or from a user as an alter!") # Checks for new messages via the database. 
 async def read_message(interaction: discord.Interaction):
